@@ -1,0 +1,631 @@
+ <link rel="stylesheet" href="index.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:transparent;color:#3d3552}
+
+:root{
+  --p-lavender:#ede9ff;
+  --p-lavender-mid:#c9bfff;
+  --p-lavender-dark:#7c6fc7;
+  --p-rose:#ffe9f3;
+  --p-rose-mid:#ffbedd;
+  --p-rose-dark:#c4658e;
+  --p-mint:#e3f9f1;
+  --p-mint-mid:#9fe8cc;
+  --p-mint-dark:#3aaa7e;
+  --p-peach:#fff0e6;
+  --p-peach-mid:#ffc89a;
+  --p-peach-dark:#c97a3a;
+  --p-sky:#e6f3ff;
+  --p-sky-mid:#b3d9ff;
+  --p-sky-dark:#4a90c4;
+  --p-butter:#fffbe6;
+  --p-butter-mid:#ffe97a;
+  --p-butter-dark:#b89a00;
+  --ink:#3d3552;
+  --ink2:#7a6e9a;
+  --ink3:#b0a8cc;
+  --surface:#ffffff;
+  --border:#e8e2f5;
+}
+
+.phone{max-width:390px;margin:0 auto;padding:0 0 2rem}
+
+.topbar{padding:1.25rem 1rem 0.5rem;display:flex;align-items:center;gap:10px}
+.app-icon{width:40px;height:40px;border-radius:14px;background:var(--p-lavender);display:flex;align-items:center;justify-content:center;font-size:20px;border:1.5px solid var(--p-lavender-mid)}
+.app-title{font-size:19px;font-weight:500;color:var(--ink)}
+.app-sub{font-size:12px;color:var(--ink2);margin-top:1px}
+
+.nav{display:flex;padding:0 1rem;gap:4px;margin-bottom:1rem}
+.ntab{flex:1;padding:9px 0;font-size:12px;font-weight:500;border:none;background:transparent;color:var(--ink2);border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:background .15s,color .15s;font-family:var(--font-sans)}
+.ntab i{font-size:18px}
+.ntab.active{background:var(--p-lavender);color:var(--p-lavender-dark)}
+.ntab:hover:not(.active){background:var(--p-lavender);color:var(--p-lavender-dark)}
+
+.page{padding:0 1rem}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1rem;margin-bottom:.75rem}
+.card-title{font-size:11px;font-weight:500;letter-spacing:.07em;color:var(--ink2);text-transform:uppercase;margin-bottom:.75rem}
+
+.inp{width:100%;height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:12px;background:var(--p-lavender);color:var(--ink);font-size:14px;font-family:var(--font-sans);outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--p-lavender-mid)}
+.sel{width:100%;height:44px;padding:0 14px;border:1.5px solid var(--border);border-radius:12px;background:var(--p-lavender);color:var(--ink);font-size:14px;font-family:var(--font-sans);outline:none;appearance:none}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mb10{margin-bottom:10px}
+
+.pbtn{width:100%;height:46px;border:none;border-radius:14px;background:var(--p-lavender-mid);color:var(--p-lavender-dark);font-size:14px;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pbtn:hover{background:var(--p-lavender-dark);color:#fff}
+.pbtn.mint{background:var(--p-mint-mid);color:var(--p-mint-dark)}
+.pbtn.mint:hover{background:var(--p-mint-dark);color:#fff}
+
+.sbtn{height:36px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--ink2);font-size:13px;font-family:var(--font-sans);cursor:pointer;white-space:nowrap;transition:background .12s}
+.sbtn:hover{background:var(--p-lavender);color:var(--p-lavender-dark)}
+.sbtn.ghost{border:none;background:transparent;padding:0 6px;color:var(--ink3)}
+.sbtn.ghost:hover{color:#e05070;background:var(--p-rose)}
+
+.trip-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;cursor:pointer;transition:background .12s;margin-bottom:4px;border:1.5px solid transparent}
+.trip-item:hover{background:var(--p-lavender)}
+.trip-item.active{background:var(--p-lavender);border-color:var(--p-lavender-mid)}
+.trip-emoji{width:38px;height:38px;border-radius:11px;background:var(--p-rose);border:1px solid var(--p-rose-mid);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.trip-item.active .trip-emoji{background:var(--p-lavender-mid)}
+.trip-name{font-size:14px;font-weight:500;color:var(--ink)}
+.trip-meta{font-size:12px;color:var(--ink2);margin-top:1px}
+
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:var(--p-lavender);border:1px solid var(--p-lavender-mid);border-radius:20px;font-size:13px;color:var(--p-lavender-dark);margin:3px}
+.av{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:#fff;flex-shrink:0}
+
+.split-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1.5px solid var(--border);border-radius:20px;cursor:pointer;font-size:13px;margin:3px;color:var(--ink2);background:var(--surface);transition:all .15s;user-select:none}
+.split-pill:hover{border-color:var(--p-lavender-mid);background:var(--p-lavender)}
+.split-pill.on{background:var(--p-mint);border-color:var(--p-mint-mid);color:var(--p-mint-dark);font-weight:500}
+
+.exp-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.exp-row:last-child{border-bottom:none}
+.exp-ico{width:36px;height:36px;border-radius:10px;background:var(--p-peach);border:1px solid var(--p-peach-mid);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.exp-name{font-size:14px;font-weight:500;color:var(--ink)}
+.exp-sub{font-size:12px;color:var(--ink2);margin-top:1px}
+
+.stat2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.stat-box{padding:.75rem;border-radius:14px;background:var(--p-lavender)}
+.stat-lbl{font-size:11px;color:var(--p-lavender-dark);margin-bottom:3px}
+.stat-val{font-size:20px;font-weight:500;color:var(--ink)}
+
+.bal-row{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:var(--p-lavender);margin-bottom:8px}
+.big-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+.b-mint{background:var(--p-mint);color:var(--p-mint-dark)}
+.b-rose{background:var(--p-rose);color:var(--p-rose-dark)}
+.b-butter{background:var(--p-butter);color:var(--p-butter-dark)}
+
+.owe-mini{font-size:12px;color:var(--ink2);padding:4px 8px;background:var(--surface);border-radius:8px;margin-top:5px;display:inline-block}
+
+.settle-row{padding:12px;border-radius:16px;background:var(--p-rose);margin-bottom:10px;border:1px solid var(--p-rose-mid)}
+.prog-track{height:6px;background:var(--p-rose-mid);border-radius:3px;overflow:hidden;margin:8px 0 4px}
+.prog-fill{height:100%;background:var(--p-mint-dark);border-radius:3px;transition:width .3s}
+.pay-inp{width:100%;height:38px;padding:0 12px;border:1.5px solid var(--p-rose-mid);border-radius:10px;background:#fff;color:var(--ink);font-size:13px;font-family:var(--font-sans);outline:none;margin-bottom:6px}
+.pay-inp:focus{border-color:var(--p-rose-dark)}
+.pay-row-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pay-btn{height:36px;border:1.5px solid var(--p-rose-mid);border-radius:10px;background:#fff;color:var(--p-rose-dark);font-size:12px;font-weight:500;font-family:var(--font-sans);cursor:pointer;transition:all .15s}
+.pay-btn:hover{background:var(--p-rose-dark);color:#fff}
+.pay-btn.full{background:var(--p-rose-mid);border-color:var(--p-rose-mid)}
+
+.hist-row{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--p-mint);border-radius:12px;margin-bottom:6px}
+
+.empty{text-align:center;padding:2rem 1rem;color:var(--ink2);font-size:14px}
+.empty i{display:block;font-size:36px;margin-bottom:.5rem;color:var(--ink3)}
+
+.notripwrap{text-align:center;padding:3rem 1rem}
+.notripwrap i{font-size:44px;color:var(--p-lavender-mid);display:block;margin-bottom:.75rem}
+.notripwrap p{font-size:14px;color:var(--ink2)}
+
+.split-label{font-size:13px;color:var(--ink2);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.split-count{font-size:12px;background:var(--p-mint);color:var(--p-mint-dark);padding:2px 9px;border-radius:20px;font-weight:500}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">SplitEasy — mobile bill splitter</h2>
+
+<div class="phone">
+  <div class="topbar">
+    <div class="app-icon"><i class="ti ti-receipt-2" aria-hidden="true"></i></div>
+    <div>
+      <div class="app-title">SplitEasy</div>
+      <div class="app-sub">shared expenses, made easy</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="ntab active" onclick="showTab('trips')"><i class="ti ti-map-2" aria-hidden="true"></i>Trips</button>
+    <button class="ntab" onclick="showTab('expenses')"><i class="ti ti-wallet" aria-hidden="true"></i>Expenses</button>
+    <button class="ntab" onclick="showTab('balances')"><i class="ti ti-scale" aria-hidden="true"></i>Balances</button>
+    <button class="ntab" onclick="showTab('settle')"><i class="ti ti-checks" aria-hidden="true"></i>Settle</button>
+  </div>
+
+  <div class="page" id="view-trips">
+    <div class="card">
+      <div class="card-title">New trip</div>
+      <div style="display:grid;grid-template-columns:60px 1fr;gap:8px;margin-bottom:10px">
+        <input class="inp" id="trip-emoji" placeholder="🏖️" style="text-align:center;font-size:20px;padding:0 6px">
+        <input class="inp" id="trip-name" placeholder="Trip name" onkeydown="if(event.key==='Enter')addTrip()">
+      </div>
+      <button class="pbtn" onclick="addTrip()"><i class="ti ti-plus" aria-hidden="true"></i> Add trip</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Your trips</div>
+      <div id="trips-list"><div class="empty"><i class="ti ti-map-off" aria-hidden="true"></i>No trips yet</div></div>
+    </div>
+  </div>
+
+  <div class="page" id="view-expenses" style="display:none">
+    <div id="no-trip-exp" class="notripwrap" style="display:none">
+      <i class="ti ti-map-2" aria-hidden="true"></i>
+      <p>Select a trip from the Trips tab first</p>
+    </div>
+    <div id="exp-content">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div id="hdr-icon" style="font-size:24px"></div>
+          <div>
+            <div id="hdr-name" style="font-size:16px;font-weight:500;color:var(--ink)"></div>
+            <div id="hdr-count" style="font-size:12px;color:var(--ink2)"></div>
+          </div>
+        </div>
+        <div class="card-title">Members</div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:10px">
+          <input class="inp" id="member-name" placeholder="Member name" onkeydown="if(event.key==='Enter')addMember()">
+          <button class="sbtn" onclick="addMember()"><i class="ti ti-user-plus" aria-hidden="true"></i></button>
+        </div>
+        <div id="members-display"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Add expense</div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:8px" class="mb10">
+          <input class="inp" id="exp-emoji" placeholder="🍽️" style="text-align:center;font-size:18px;padding:0 4px">
+          <input class="inp" id="exp-name" placeholder="What was it for?">
+        </div>
+        <div class="row2">
+          <input class="inp" id="exp-amount" type="number" placeholder="₱ amount" min="0" step="0.01">
+          <select class="sel" id="exp-paid-by"><option value="">Who paid?</option></select>
+        </div>
+        <div class="mb10">
+          <div class="split-label">
+            <span>Split among</span>
+            <span class="split-count" id="split-count">0 selected</span>
+          </div>
+          <div id="split-pills"></div>
+        </div>
+        <button class="pbtn mint" onclick="addExpense()"><i class="ti ti-plus" aria-hidden="true"></i> Add expense</button>
+      </div>
+
+      <div class="card">
+        <div id="exp-stats"></div>
+        <div class="card-title">Expenses</div>
+        <div id="expenses-list"><div class="empty"><i class="ti ti-coin-off" aria-hidden="true"></i>No expenses yet</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="view-balances" style="display:none">
+    <div id="no-trip-bal" class="notripwrap" style="display:none">
+      <i class="ti ti-map-2" aria-hidden="true"></i>
+      <p>Select a trip from the Trips tab first</p>
+    </div>
+    <div id="bal-content">
+      <div class="card">
+        <div id="bal-stats"></div>
+        <div class="card-title">Balances</div>
+        <div id="balance-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="view-settle" style="display:none">
+    <div id="no-trip-set" class="notripwrap" style="display:none">
+      <i class="ti ti-moneybag"></i>
+      <p>Select a trip from the Trips tab first</p>
+    </div>
+    <div id="settle-content">
+      <div class="card">
+        <div class="card-title">Who owes who</div>
+        <div id="settle-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Payment history</div>
+        <div id="pay-history"></div>
+      </div>
+      <div style="text-align:center;padding:20px;color:#7a6e9a;font-size:12px">
+    SplitEasy v1.0
+    <br>
+    Created by Jerica Galve
+</div>
+    </div>
+  </div>
+</div>
+<div class="topbar">
+  <div class="app-icon">
+    <i class="ti ti-receipt-2"></i>
+  </div>
+
+  <div style="flex:1">
+    <div class="app-title">SplitEasy</div>
+    <div class="app-sub">shared expenses, made easy</div>
+  </div>
+
+  <button class="sbtn" onclick="showAbout()">
+    <i class="ti ti-info-circle"></i>
+  </button>
+</div>
+<div class="card" style="text-align:center">
+
+<div onclick="showAbout()" style="cursor:pointer">
+  <div class="app-title">SplitEasy</div>
+  <div class="app-sub">shared expenses, made easy</div>
+</div>
+
+<script>
+var S = JSON.parse(
+    localStorage.getItem("spliteasy")
+) || {
+    trips:[],
+    active:null,
+    payments:{}
+};
+function showAbout(){
+  alert(
+`SplitEasy
+
+Built using:
+• HTML
+• CSS
+• JavaScript
+
+Features:
+• Trip Management
+• Expense Tracking
+• Balance Calculation
+• Settlement Tracking
+• Local Storage
+
+Created by Jerica Galve`
+  );
+}
+function showAbout(){
+    alert(
+      "SplitEasy\n\nA mobile expense sharing app built using HTML, CSS, and JavaScript."
+    );
+
+function loadDemoData(){
+    S.trips=[
+      {
+        id:1,
+        emoji:"🏖️",
+        name:"Boracay Trip",
+        members:["Jerica","Anna","Mark"],
+        expenses:[
+          {
+            id:1,
+            emoji:"🍔",
+            name:"Lunch",
+            amount:900,
+            paidBy:"Jerica",
+            splitAmong:["Jerica","Anna","Mark"]
+          }
+        ]
+      }
+    ];
+
+    renderTrips();
+}
+}
+
+function saveData(){
+    localStorage.setItem(
+        "spliteasy",
+        JSON.stringify(S)
+    );
+}
+saveData();
+var sel={};
+
+var palettes=[
+  {bg:'#ede9ff',bd:'#c9bfff',tx:'#7c6fc7'},
+  {bg:'#ffe9f3',bd:'#ffbedd',tx:'#c4658e'},
+  {bg:'#e3f9f1',bd:'#9fe8cc',tx:'#3aaa7e'},
+  {bg:'#fff0e6',bd:'#ffc89a',tx:'#c97a3a'},
+  {bg:'#e6f3ff',bd:'#b3d9ff',tx:'#4a90c4'},
+  {bg:'#fffbe6',bd:'#ffe97a',tx:'#b89a00'},
+];
+function pal(n){var h=0;for(var c of n)h+=c.charCodeAt(0);return palettes[h%palettes.length];}
+function ini(n){return n.trim().split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);}
+function avStyle(n,size){var p=pal(n);size=size||32;return 'width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+p.bd+';color:'+p.tx+';display:inline-flex;align-items:center;justify-content:center;font-size:'+(size*0.38|0)+'px;font-weight:500;flex-shrink:0';}
+
+function showTab(t){
+  ['trips','expenses','balances','settle'].forEach(function(x){
+    document.getElementById('view-'+x).style.display=x===t?'block':'none';
+  });
+  document.querySelectorAll('.ntab').forEach(function(el,i){
+    el.classList.toggle('active',['trips','expenses','balances','settle'][i]===t);
+  });
+  if(t==='expenses')renderExp();
+  if(t==='balances')renderBal();
+  if(t==='settle')renderSettle();
+}
+
+function trip(){return S.trips.find(function(t){return t.id===S.active;})||null;}
+function spent(t){return t.expenses.reduce(function(a,e){return a+e.amount;},0);}
+
+function addTrip(){
+  var emoji=document.getElementById('trip-emoji').value.trim()||'✈️';
+  var name=document.getElementById('trip-name').value.trim();
+  if(!name)return;
+  S.trips.push({id:Date.now(),emoji:emoji,name:name,members:[],expenses:[]});
+  document.getElementById('trip-name').value='';
+  document.getElementById('trip-emoji').value='';
+  renderTrips();
+}
+
+function selectTrip(id){S.active=id;sel={};renderTrips();}
+
+function deleteTrip(id,e){
+  e.stopPropagation();
+  S.trips=S.trips.filter(function(t){return t.id!==id;});
+  if(S.active===id)S.active=null;
+  renderTrips();
+}
+
+function renderTrips(){
+  var el=document.getElementById('trips-list');
+  if(!S.trips.length){el.innerHTML='<div class="empty"><i class="ti ti-map-off" aria-hidden="true"></i>No trips yet</div>';return;}
+  el.innerHTML=S.trips.map(function(t){
+    var p=pal(t.name);
+    return '<div class="trip-item'+(t.id===S.active?' active':'')+'" onclick="selectTrip('+t.id+')">'+
+      '<div class="trip-emoji" style="background:'+p.bg+';border-color:'+p.bd+'">'+t.emoji+'</div>'+
+      '<div style="flex:1"><div class="trip-name">'+t.name+'</div>'+
+      '<div class="trip-meta">'+t.members.length+' members · ₱'+spent(t).toLocaleString('en-PH',{minimumFractionDigits:0,maximumFractionDigits:0})+'</div></div>'+
+      '<button class="sbtn ghost" onclick="deleteTrip('+t.id+',event)"><i class="ti ti-trash" aria-hidden="true"></i></button>'+
+      '</div>';
+  }).join('');
+}
+
+function addMember(){
+  var t=trip();if(!t)return;
+  var name=document.getElementById('member-name').value.trim();
+  if(!name||t.members.includes(name))return;
+  t.members.push(name);sel[name]=true;
+  document.getElementById('member-name').value='';
+  renderExp();
+}
+
+function removeMember(name){
+  var t=trip();if(!t)return;
+  if(t.expenses.some(function(e){return e.paidBy===name||e.splitAmong.includes(name);})){alert('Cannot remove — involved in expenses.');return;}
+  t.members=t.members.filter(function(m){return m!==name;});
+  delete sel[name];renderExp();
+}
+
+function toggleSplit(name){sel[name]=!sel[name];updatePills();}
+
+function updatePills(){
+  var t=trip();if(!t)return;
+  var count=t.members.filter(function(m){return sel[m];}).length;
+  document.getElementById('split-count').textContent=count+' selected';
+  document.querySelectorAll('.split-pill').forEach(function(el){
+    var m=el.dataset.m;
+    if(sel[m])el.classList.add('on');else el.classList.remove('on');
+  });
+}
+
+function renderExp(){
+  var t=trip();
+  var noEl=document.getElementById('no-trip-exp');
+  var content=document.getElementById('exp-content');
+  if(!t){noEl.style.display='block';content.style.display='none';return;}
+  noEl.style.display='none';content.style.display='block';
+  document.getElementById('hdr-icon').textContent=t.emoji;
+  document.getElementById('hdr-name').textContent=t.name;
+  document.getElementById('hdr-count').textContent=t.members.length+' members · '+t.expenses.length+' expenses';
+
+  document.getElementById('members-display').innerHTML=t.members.map(function(m){
+    var p=pal(m);
+    return '<span class="chip" style="background:'+p.bg+';border-color:'+p.bd+';color:'+p.tx+'">'+
+      '<span class="av" style="background:'+p.bd+';color:'+p.tx+'">'+ini(m)+'</span>'+m+
+      '<button class="sbtn ghost" style="height:auto;padding:0;min-width:0;font-size:12px;color:'+p.tx+'" onclick="removeMember(\''+m+'\')"><i class="ti ti-x" aria-hidden="true"></i></button>'+
+      '</span>';
+  }).join('');
+
+  var pb=document.getElementById('exp-paid-by');
+  var cv=pb.value;
+  pb.innerHTML='<option value="">Who paid?</option>'+t.members.map(function(m){return '<option value="'+m+'"'+(cv===m?' selected':'')+'>'+m+'</option>';}).join('');
+
+  t.members.forEach(function(m){if(sel[m]===undefined)sel[m]=true;});
+  document.getElementById('split-pills').innerHTML=t.members.map(function(m){
+    var p=pal(m);
+    return '<span class="split-pill'+(sel[m]?' on':'')+'" data-m="'+m+'" onclick="toggleSplit(\''+m+'\')">'+
+      '<span style="'+avStyle(m,20)+'">'+ini(m)+'</span>'+m+'</span>';
+  }).join('');
+  var count=t.members.filter(function(m){return sel[m];}).length;
+  document.getElementById('split-count').textContent=count+' selected';
+
+  var total=spent(t);
+  var statsEl=document.getElementById('exp-stats');
+  statsEl.innerHTML=t.expenses.length?
+    '<div class="stat2" style="margin-bottom:12px">'+
+    '<div class="stat-box"><div class="stat-lbl">Total spent</div><div class="stat-val" style="color:var(--p-mint-dark)">₱'+total.toLocaleString('en-PH',{minimumFractionDigits:0})+'</div></div>'+
+    '<div class="stat-box"><div class="stat-lbl">Per person avg</div><div class="stat-val">₱'+(t.members.length?Math.round(total/t.members.length):0)+'</div></div>'+
+    '</div>':'';
+
+  var list=document.getElementById('expenses-list');
+  if(!t.expenses.length){list.innerHTML='<div class="empty"><i class="ti ti-coin-off" aria-hidden="true"></i>No expenses yet</div>';return;}
+  list.innerHTML=t.expenses.slice().reverse().map(function(exp){
+    return '<div class="exp-row">'+
+      '<div class="exp-ico">'+(exp.emoji||'💰')+'</div>'+
+      '<div style="flex:1"><div class="exp-name">'+exp.name+'</div>'+
+      '<div class="exp-sub">'+exp.paidBy+' paid · ÷'+exp.splitAmong.length+'</div></div>'+
+      '<div style="text-align:right">'+
+      '<div style="font-size:15px;font-weight:500;color:var(--p-mint-dark)">₱'+exp.amount.toLocaleString('en-PH',{minimumFractionDigits:2})+'</div>'+
+      '<div style="font-size:11px;color:var(--ink2)">₱'+(exp.amount/exp.splitAmong.length).toFixed(2)+' each</div>'+
+      '</div>'+
+      '<button class="sbtn ghost" onclick="deleteExp('+exp.id+')"><i class="ti ti-trash" aria-hidden="true"></i></button>'+
+      '</div>';
+  }).join('');
+}
+
+function addExpense(){
+  var t=trip();if(!t||!t.members.length){alert('Add members first!');return;}
+  var emoji=document.getElementById('exp-emoji').value.trim()||'💰';
+  var name=document.getElementById('exp-name').value.trim();
+  var amount=parseFloat(document.getElementById('exp-amount').value);
+  var paidBy=document.getElementById('exp-paid-by').value;
+  var among=t.members.filter(function(m){return sel[m];});
+  if(!name||!amount||!paidBy||!among.length){alert('Fill all fields and select who splits it.');return;}
+  t.expenses.push({id:Date.now(),emoji:emoji,name:name,amount:amount,paidBy:paidBy,splitAmong:among});
+  document.getElementById('exp-name').value='';
+  document.getElementById('exp-amount').value='';
+  document.getElementById('exp-emoji').value='';
+  document.getElementById('exp-paid-by').value='';
+  t.members.forEach(function(m){sel[m]=true;});
+  renderExp();
+}
+
+function deleteExp(id){var t=trip();if(!t)return;t.expenses=t.expenses.filter(function(e){return e.id!==id;});renderExp();}
+
+function calcBal(){
+  var t=trip();if(!t)return{};
+  var b={};t.members.forEach(function(m){b[m]=0;});
+  t.expenses.forEach(function(exp){
+    var share=exp.amount/exp.splitAmong.length;
+    b[exp.paidBy]=(b[exp.paidBy]||0)+exp.amount;
+    exp.splitAmong.forEach(function(m){b[m]=(b[m]||0)-share;});
+  });
+  return b;
+}
+
+function simplify(bal){
+  var d=[],c=[];
+  Object.entries(bal).forEach(function(e){
+    if(e[1]>0.01)c.push({name:e[0],amt:e[1]});
+    else if(e[1]<-0.01)d.push({name:e[0],amt:-e[1]});
+  });
+  var tx=[];var i=0,j=0;
+  while(i<d.length&&j<c.length){
+    var pay=Math.min(d[i].amt,c[j].amt);
+    tx.push({from:d[i].name,to:c[j].name,amount:pay});
+    d[i].amt-=pay;c[j].amt-=pay;
+    if(d[i].amt<0.01)i++;if(c[j].amt<0.01)j++;
+  }
+  return tx;
+}
+
+function renderBal(){
+  var t=trip();
+  var noEl=document.getElementById('no-trip-bal');
+  var content=document.getElementById('bal-content');
+  if(!t){noEl.style.display='block';content.style.display='none';return;}
+  noEl.style.display='none';content.style.display='block';
+  var bal=calcBal();
+  var total=spent(t);
+  document.getElementById('bal-stats').innerHTML=total?
+    '<div class="stat2" style="margin-bottom:12px">'+
+    '<div class="stat-box"><div class="stat-lbl">Total spent</div><div class="stat-val" style="color:var(--p-mint-dark)">₱'+total.toLocaleString('en-PH',{minimumFractionDigits:0})+'</div></div>'+
+    '<div class="stat-box"><div class="stat-lbl">Expenses</div><div class="stat-val">'+t.expenses.length+'</div></div>'+
+    '</div>':'';
+  var tx=simplify(bal);
+  var list=document.getElementById('balance-list');
+  if(!t.members.length){list.innerHTML='<div class="empty">No members yet</div>';return;}
+  list.innerHTML=t.members.map(function(m){
+    var amt=bal[m]||0;
+    var isOwed=amt>0.01,owes=amt<-0.01;
+    var myOwes=tx.filter(function(x){return x.from===m;});
+    var myOwed=tx.filter(function(x){return x.to===m;});
+    var p=pal(m);
+    return '<div class="bal-row" style="background:'+p.bg+';border:1px solid '+p.bd+'">'+
+      '<div class="big-av" style="background:'+p.bd+';color:'+p.tx+'">'+ini(m)+'</div>'+
+      '<div style="flex:1">'+
+      '<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">'+
+      '<span style="font-size:14px;font-weight:500;color:'+p.tx+'">'+m+'</span>'+
+      '<span class="badge '+(isOwed?'b-mint':owes?'b-rose':'b-butter')+'">'+(isOwed?'gets back':owes?'owes':'settled')+'</span>'+
+      '</div>'+
+      (isOwed?myOwed.map(function(x){return '<div class="owe-mini">'+x.from+' → ₱'+x.amount.toFixed(2)+'</div>';}).join(''):'') +
+      (owes?myOwes.map(function(x){return '<div class="owe-mini">pay '+x.to+' ₱'+x.amount.toFixed(2)+'</div>';}).join(''):'') +
+      (!isOwed&&!owes?'<div style="font-size:12px;color:'+p.tx+'">all settled!</div>':'')+
+      '</div>'+
+      '<div style="font-size:16px;font-weight:500;color:'+(isOwed?'var(--p-mint-dark)':owes?'var(--p-rose-dark)':p.tx)+'">'+
+      (isOwed?'+':'')+'₱'+Math.abs(amt).toFixed(2)+'</div>'+
+      '</div>';
+  }).join('');
+}
+
+function renderSettle(){
+  var t=trip();
+  var noEl=document.getElementById('no-trip-set');
+  var content=document.getElementById('settle-content');
+  if(!t){noEl.style.display='block';content.style.display='none';return;}
+  noEl.style.display='none';content.style.display='block';
+  var bal=calcBal();
+  var tx=simplify(bal);
+  var key=t.id;
+  if(!S.payments[key])S.payments[key]={};
+  var list=document.getElementById('settle-list');
+  if(!tx.length){list.innerHTML='<div class="empty"><i class="ti ti-confetti" aria-hidden="true"></i>All settled up!</div>';renderHistory(key);return;}
+  list.innerHTML=tx.map(function(x,i){
+    var pid=x.from+'->'+x.to;
+    var paid=S.payments[key][pid]||0;
+    var rem=Math.max(0,x.amount-paid);
+    var pct=Math.min(100,(paid/x.amount)*100);
+    var pf=pal(x.from),pt=pal(x.to);
+    return '<div class="settle-row">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
+      '<span style="'+avStyle(x.from,28)+';border-radius:50%">'+ini(x.from)+'</span>'+
+      '<span style="font-size:13px;font-weight:500;color:var(--p-rose-dark)">'+x.from+'</span>'+
+      '<i class="ti ti-arrow-right" style="font-size:13px;color:var(--p-rose-dark)" aria-hidden="true"></i>'+
+      '<span style="'+avStyle(x.to,28)+';border-radius:50%">'+ini(x.to)+'</span>'+
+      '<span style="font-size:13px;font-weight:500;color:var(--p-rose-dark)">'+x.to+'</span>'+
+      '<span style="margin-left:auto;font-size:15px;font-weight:500;color:'+(rem<0.01?'var(--p-mint-dark)':'var(--p-rose-dark)')+'">₱'+rem.toFixed(2)+'</span>'+
+      '</div>'+
+      '<div class="prog-track"><div class="prog-fill" style="width:'+pct+'%"></div></div>'+
+      '<div style="font-size:11px;color:var(--p-rose-dark);margin-bottom:8px">₱'+paid.toFixed(2)+' paid of ₱'+x.amount.toFixed(2)+'</div>'+
+      (rem>0.01?
+        '<input class="pay-inp" type="number" id="pi-'+i+'" placeholder="Enter amount to pay" min="0.01" step="0.01" max="'+rem+'">'+
+        '<div class="pay-row-btns">'+
+        '<button class="pay-btn" onclick="payPartial('+i+',\''+pid+'\','+key+','+x.amount+','+paid+')"><i class="ti ti-coins" aria-hidden="true"></i> Pay amount</button>'+
+        '<button class="pay-btn full" onclick="payFull(\''+pid+'\','+key+','+x.amount+')"><i class="ti ti-check" aria-hidden="true"></i> Pay full ₱'+x.amount.toFixed(2)+'</button>'+
+        '</div>':
+        '<div style="text-align:center;font-size:13px;font-weight:500;color:var(--p-mint-dark)"><i class="ti ti-circle-check" aria-hidden="true"></i> Settled!</div>')+
+      '</div>';
+  }).join('');
+  renderHistory(key);
+}
+
+function payFull(pid,key,amt){if(!S.payments[key])S.payments[key]={};S.payments[key][pid]=amt;renderSettle();}
+function payPartial(i,pid,key,total,already){
+  var inp=document.getElementById('pi-'+i);
+  var v=parseFloat(inp.value);
+  if(!v||v<=0){alert('Enter a valid amount');return;}
+  if(!S.payments[key])S.payments[key]={};
+  S.payments[key][pid]=Math.min(total,already+v);
+  renderSettle();
+}
+function undoPay(pid,key){if(!S.payments[key])return;delete S.payments[key][pid];renderSettle();}
+
+function renderHistory(key){
+  var el=document.getElementById('pay-history');
+  if(!S.payments||!S.payments[key]){el.innerHTML='<div class="empty">No payments yet</div>';return;}
+  var entries=Object.entries(S.payments[key]).filter(function(e){return e[1]>0;});
+  if(!entries.length){el.innerHTML='<div class="empty">No payments yet</div>';return;}
+  el.innerHTML=entries.map(function(e){
+    var pid=e[0],amt=e[1];
+    var parts=pid.split('->');var from=parts[0],to=parts[1];
+    var pf=pal(from),pt=pal(to);
+    return '<div class="hist-row">'+
+      '<i class="ti ti-circle-check" style="font-size:16px;color:var(--p-mint-dark);flex-shrink:0" aria-hidden="true"></i>'+
+      '<div style="flex:1;font-size:13px;color:var(--ink)">'+
+      '<span style="font-weight:500;color:'+pf.tx+'">'+from+'</span> paid <span style="font-weight:500;color:'+pt.tx+'">'+to+'</span>'+
+      '</div>'+
+      '<span style="font-size:13px;font-weight:500;color:var(--p-mint-dark)">₱'+amt.toFixed(2)+'</span>'+
+      '<button class="sbtn ghost" onclick="undoPay(\''+pid+'\','+key+')" title="Undo"><i class="ti ti-arrow-back-up" aria-hidden="true"></i></button>'+
+      '</div>';
+  }).join('');
+}
+
+renderTrips();
+</script>
